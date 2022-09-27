@@ -1,30 +1,28 @@
+from scipy.misc import derivative
 
-def formula(x):
+def f(x):
     return 4 * pow(x, 4) + 4 * pow(x, 3) - 6 * pow(x, 2) - 9 * x - 1
 
-a = 0
-b = 100
+a = -2
+b = -.5
 eps = 0.001
 
+if derivative(f, a) * derivative(f, a, 2) < 0:
+    a, b = b, a
+
+xp1 = a
+xp2 = b
+
 while True:
-    x = (a + b) / 2
-    seg_1 = a, x
-    seg_2 = x, b
-    result_1 = formula(seg_1[0]), formula(seg_1[1])
-    result_2 = formula(seg_2[0]), formula(seg_2[1])
-    
-    if result_1[0] > 0 > result_1[1] or result_1[0] < 0 < result_1[1]:
-        a = seg_1[0]
-        b = seg_1[1]
-        if result_1[1] <= eps or result_1[1] <= eps:
-            break
+    xn1 = xp1 - f(xp1) * (xp2 - xp1) / (f(xp2) - f(xp1))
+    xn2 = xp2 - f(xp2) - derivative(f, xp2)
 
-    else:
-        a = seg_2[0]
-        b = seg_2[1]
-        if result_2[1] <= eps or result_2[1] <= eps:
-            break
+    xp1 = xn1
+    xp2 = xn2
 
-result = a
+    if xp2 - xp1 >= eps:
+        break
 
-print('Result:', result)
+x = (xp1 + xp2) / 2
+
+print(x)
