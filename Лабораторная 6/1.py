@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import mplcyberpunk
 
 x = np.array([-3, -2, 0, 3])
 y = np.array([9, 10, -6, 15])
@@ -25,8 +26,10 @@ def calculate(x, y, t):
 x_interp = np.linspace(np.min(x), np.max(x), 100)
 y_interp = [calculate(x, y, i) for i in x_interp]
 
-# Show graph
+plt.style.use('cyberpunk')
 plt.grid(True)
 plt.title('Графік Лангранжа')
+
+# Show graph
 plt.plot(x, y, 'o', x_interp, y_interp)
 plt.show()
