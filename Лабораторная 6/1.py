@@ -1,9 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import mplcyberpunk
+from scipy.interpolate import lagrange
 
-x = np.array([-3, -2, 0, 3])
-y = np.array([9, 10, -6, 15])
+x_arr = np.array([-3, -2, 0, 3])
+y_arr = np.array([9, 10, -6, 15])
 
 def calculate(x, y, t):
     res = 0
@@ -21,15 +22,30 @@ def calculate(x, y, t):
 
     return res
 
+# Calculate values
+for x in x_arr:
+    print('x={x}; y={y}'.format(x=x, y=calculate(x_arr, y_arr, x)))
 
 # Interpolate graph by adding intermediate values
-x_interp = np.linspace(np.min(x), np.max(x), 100)
-y_interp = [calculate(x, y, i) for i in x_interp]
+x_interp = np.linspace(np.min(x_arr), np.max(x_arr), 100)
+y_interp = [calculate(x_arr, y_arr, x) for x in x_interp]
 
 plt.style.use('cyberpunk')
 plt.grid(True)
 plt.title('Графік Лангранжа')
 
 # Show graph
-plt.plot(x, y, 'o', x_interp, y_interp)
+plt.plot(x_arr, y_arr, 'o', x_interp, y_interp)
+plt.show()
+
+
+
+# Test
+f = lagrange(x_arr, y_arr)
+fig = plt.figure(figsize = (10, 8))
+plt.plot(x_interp, f(x_interp), 'b', x_arr, y_arr, 'ro')
+plt.title('Тест')
+plt.grid(True)
+plt.xlabel('x')
+plt.ylabel('y')
 plt.show()
